@@ -105,7 +105,8 @@ if simulation_type == "직선 전류":
     )
     st.plotly_chart(fig, use_container_width=True, config=config)
 
-# --------------------------------------------------------------------------------------------------
+---
+
 # 2. 원형 전류에 의한 자기장 (3D)
 elif simulation_type == "원형 전류":
     st.header("2. 원형 전류에 의한 자기장")
@@ -183,7 +184,8 @@ elif simulation_type == "원형 전류":
     )
     st.plotly_chart(fig, use_container_width=True, config=config)
 
-# --------------------------------------------------------------------------------------------------
+---
+
 # 3. 솔레노이드에 의한 자기장 (3D)
 elif simulation_type == "솔레노이드":
     st.header("3. 솔레노이드에 의한 자기장")
@@ -192,6 +194,7 @@ elif simulation_type == "솔레노이드":
     # 사용자 입력 (슬라이더)
     I = st.slider("전류의 세기 (I)", 0.1, 5.0, 2.0, help="자기장의 세기와 전류 선의 굵기에 영향을 줍니다.")
     n = st.slider("단위 길이당 코일 감은 수 (n)", 10, 100, 50, help="자기장의 세기와 솔레노이드의 빽빽한 정도에 영향을 줍니다.")
+    r_val = st.slider("솔레노이드 반지름 (r)", 0.5, 3.0, 1.0, help="솔레노이드의 반지름을 조절합니다.")
     
     # 3D 그래프 생성
     fig = go.Figure()
@@ -205,8 +208,8 @@ elif simulation_type == "솔레노이드":
     
     # 코일을 y축에 나란하게 그리기 위해 x와 z를 코사인/사인으로 설정
     y_coil = np.linspace(-coil_length/2, coil_length/2, num_points)
-    x_coil = np.cos(theta)
-    z_coil = np.sin(theta)
+    x_coil = r_val * np.cos(theta)
+    z_coil = r_val * np.sin(theta)
     
     fig.add_trace(go.Scatter3d(
         x=x_coil, y=y_coil, z=z_coil,
@@ -215,32 +218,16 @@ elif simulation_type == "솔레노이드":
         name='전류 (I)'
     ))
 
-    # 자기장 궤적 (빨간색)
-    theta = np.linspace(0, 2 * np.pi, 100)
-    x = r_val * np.cos(theta)
-    y = r_val * np.sin(theta)
-    z = np.zeros_like(theta)
-    
-    B_r = 2e-7 * I / r_val
-    line_width = B_r / (2e-7 * 5.0 / 0.5) * 10 * 3
-    
-    fig.add_trace(go.Scatter3d(
-        x=x, y=y, z=z,
-        mode='lines',
-        line=dict(color='red', width=line_width),
-        name='자기장 (B)'
-    ))
-
     # 코일 방향 화살표 (파란색)
     num_arrows = 10
     for i in range(num_arrows):
         y_pos = np.linspace(-2.5, 2.5, num_arrows)[i]
         angle = np.interp(y_pos, y_coil, theta)
         
-        x_end = np.cos(angle)
-        z_end = np.sin(angle)
-        x_start = np.cos(angle + 0.1)
-        z_start = np.sin(angle + 0.1)
+        x_end = r_val * np.cos(angle)
+        z_end = r_val * np.sin(angle)
+        x_start = r_val * np.cos(angle + 0.1)
+        z_start = r_val * np.sin(angle + 0.1)
         
         fig.add_trace(go.Cone(
             x=[x_end], y=[y_pos], z=[z_end],
@@ -258,11 +245,11 @@ elif simulation_type == "솔레노이드":
     arrow_size = B / (mu_0 * 100 * 5.0) * 1.5
     line_width = B / (mu_0 * 100 * 5.0) * 10
 
-    # 솔레노이드의 반지름은 1.0이므로, 내부에서만 궤적을 그리도록 범위를 줄입니다.
-    x_positions = np.linspace(-0.5, 0.5, 3)  
-    z_positions = np.linspace(-0.5, 0.5, 3)  
+    # 솔레노이드의 반지름에 맞춰 자기장 궤적 범위를 조정
+    x_positions = np.linspace(-r_val * 0.5, r_val * 0.5, 3)  
+    z_positions = np.linspace(-r_val * 0.5, r_val * 0.5, 3)  
     
-    # 자기장 궤적의 길이를 코일 길이(6)보다 길게 설정합니다.
+    # 자기장 궤적의 길이를 코일 길이(6)보다 길게 설정
     y_range = np.linspace(-4, 4, 50)  
 
     for col_idx, x_pos in enumerate(x_positions):
@@ -278,7 +265,7 @@ elif simulation_type == "솔레노이드":
             ))
             
             # 자기장 화살표 (각 궤적 위에 3개)
-            # 궤적의 새로운 범위에 맞춰 화살표 위치를 조정합니다.
+            # 궤적의 새로운 범위에 맞춰 화살표 위치를 조정
             y_arrow_positions = np.linspace(-3.5, 3.5, 3)  
             for y_arrow_pos in y_arrow_positions:
                 fig.add_trace(go.Cone(
@@ -287,7 +274,7 @@ elif simulation_type == "솔레노이드":
                     sizemode="absolute", sizeref=arrow_size,
                     showscale=False,
                     colorscale=[[0, 'red'], [1, 'red']],
-                    name='자기장 화살표' if (col_idx == 0 and row_idx == 0 and y_arrow_pos == y_arrow_positions[0]) else ''
+                    name='자기장' if (col_idx == 0 and row_idx == 0 and y_arrow_pos == y_arrow_positions[0]) else ''
                 ))
 
     # 레이아웃 및 카메라 설정
@@ -295,9 +282,9 @@ elif simulation_type == "솔레노이드":
         scene=dict(
             xaxis_title='X축', yaxis_title='Y축', zaxis_title='Z축',
             # 축 범위도 자기장 범위에 맞게 조정
-            xaxis=dict(showticklabels=False, range=[-2, 2]),  
+            xaxis=dict(showticklabels=False, range=[-4, 4]),  
             yaxis=dict(showticklabels=False, range=[-4, 4]),  
-            zaxis=dict(showticklabels=False, range=[-2, 2]),
+            zaxis=dict(showticklabels=False, range=[-4, 4]),
             aspectmode='cube'
         ),
         margin=dict(l=0, r=0, b=0, t=0),
