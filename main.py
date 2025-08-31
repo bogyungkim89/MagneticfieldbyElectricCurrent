@@ -248,7 +248,7 @@ elif simulation_type == "솔레노이드":
         y_pos = np.linspace(-2.5, 2.5, num_arrows)[i]
         angle = np.interp(y_pos, y_coil, theta)
         
-        # 수정: np.cos(angle + 0.1)의 닫는 괄호 추가
+        # 수정된 부분: np.cos(angle + 0.1)의 닫는 괄호 추가
         x_end = r_val * np.cos(angle)
         z_end = r_val * np.sin(angle)
         x_start = r_val * np.cos(angle + 0.1)
