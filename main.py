@@ -105,7 +105,8 @@ if simulation_type == "직선 전류":
     )
     st.plotly_chart(fig, use_container_width=True, config=config)
 
-# --------------------------------------------------------------------------------------------------
+---
+
 # 2. 원형 전류에 의한 자기장 (3D)
 elif simulation_type == "원형 전류":
     st.header("2. 원형 전류에 의한 자기장")
@@ -183,7 +184,8 @@ elif simulation_type == "원형 전류":
     )
     st.plotly_chart(fig, use_container_width=True, config=config)
 
-# --------------------------------------------------------------------------------------------------
+---
+
 # 3. 솔레노이드에 의한 자기장 (3D)
 elif simulation_type == "솔레노이드":
     st.header("3. 솔레노이드에 의한 자기장")
@@ -249,6 +251,8 @@ elif simulation_type == "솔레노이드":
     # 자기장 궤적의 길이를 코일 길이(6)보다 길게 설정합니다.
     y_range = np.linspace(-4, 4, 50)  
 
+    # 자기장 궤적을 그리는 첫 번째 루프에서만 범례를 추가합니다.
+    is_first_trace = True
     for col_idx, x_pos in enumerate(x_positions):
         for row_idx, z_pos in enumerate(z_positions):
             # 자기장 궤적 (직선)
@@ -258,11 +262,13 @@ elif simulation_type == "솔레노이드":
                 z=np.full_like(y_range, z_pos),
                 mode='lines',
                 line=dict(color='red', width=line_width),
-                showlegend=False
+                showlegend=True if is_first_trace else False,
+                name='자기장 (B)' if is_first_trace else ''
             ))
+            # 첫 번째 트레이스 이후에는 범례를 표시하지 않습니다.
+            is_first_trace = False
             
             # 자기장 화살표 (각 궤적 위에 3개)
-            # 궤적의 새로운 범위에 맞춰 화살표 위치를 조정합니다.
             y_arrow_positions = np.linspace(-3.5, 3.5, 3)  
             for y_arrow_pos in y_arrow_positions:
                 fig.add_trace(go.Cone(
