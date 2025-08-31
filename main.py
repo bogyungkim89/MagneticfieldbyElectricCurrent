@@ -231,11 +231,12 @@ elif simulation_type == "솔레노이드":
     arrow_size = B / (mu_0 * 100 * 5.0) * 1.5
     line_width = B / (mu_0 * 100 * 5.0) * 10
 
-    # 솔레노이드의 반지름은 1.0 (cos(theta), sin(theta)이므로)
-    # 자기장의 범위를 솔레노이드 반지름보다 넓게 설정합니다.
-    x_positions = np.linspace(-1.5, 1.5, 5) 
-    z_positions = np.linspace(-1.5, 1.5, 5) 
-    y_range = np.linspace(-2.5, 2.5, 50)
+    # 솔레노이드의 반지름은 1.0이므로, 내부에서만 궤적을 그리도록 범위를 줄입니다.
+    x_positions = np.linspace(-0.5, 0.5, 3) 
+    z_positions = np.linspace(-0.5, 0.5, 3) 
+    
+    # 자기장 궤적의 길이를 코일 길이(6)보다 길게 설정합니다.
+    y_range = np.linspace(-4, 4, 50) 
 
     for col_idx, x_pos in enumerate(x_positions):
         for row_idx, z_pos in enumerate(z_positions):
@@ -250,7 +251,8 @@ elif simulation_type == "솔레노이드":
             ))
             
             # 자기장 화살표 (각 궤적 위에 3개)
-            y_arrow_positions = np.linspace(-2.0, 2.0, 3)
+            # 궤적의 새로운 범위에 맞춰 화살표 위치를 조정합니다.
+            y_arrow_positions = np.linspace(-3.5, 3.5, 3) 
             for y_arrow_pos in y_arrow_positions:
                 fig.add_trace(go.Cone(
                     x=[x_pos], y=[y_arrow_pos], z=[z_pos],
