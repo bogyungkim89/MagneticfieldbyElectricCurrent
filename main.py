@@ -68,7 +68,7 @@ if simulation_type == "직선 전류":
         x=x, y=y, z=z,
         mode='lines',
         line=dict(color='red', width=line_width),
-        name='자기장 궤적'
+        name='자기장 (B)'
     ))
 
     # 자기장 방향 화살표 (빨간색, 반시계 방향)
@@ -127,7 +127,7 @@ elif simulation_type == "원형 전류":
         x=x, y=y, z=z,
         mode='lines',
         line=dict(color='blue', width=I * 2),
-        name='원형 전류 (I)'
+        name='전류 (I)'
     ))
     
     # 전류 방향 화살표 (파란색)
@@ -212,7 +212,13 @@ elif simulation_type == "솔레노이드":
         x=x_coil, y=y_coil, z=z_coil,
         mode='lines',
         line=dict(color='blue', width=I * 2),
-        name='솔레노이드 코일'
+        name='전류 (I)'
+
+        fig.add_trace(go.Scatter3d(
+        x=x, y=y, z=z,
+        mode='lines',
+        line=dict(color='red', width=line_width),
+        name='자기장 (B)'
     ))
 
     # 코일 방향 화살표 (파란색)
