@@ -193,7 +193,7 @@ elif simulation_type == "솔레노이드":
     # 제목 변경
     st.header("3. 솔레노이드에 의한 자기장")
     st.markdown("원통형 코일에 흐르는 전류와 내부의 균일한 자기장을 3차원으로 보여줍니다.")
-    st.markdown("<span style='font-size: 140%;'>$B=k''(I/r)$ ($k''=2k'=2\pi k$)</span>", unsafe_allow_html=True)
+    st.markdown("<span style='font-size: 140%;'>$B=k''nI$ ($k''=2k'=2\pi k$)</span>", unsafe_allow_html=True)
 
     # 사용자 입력 (슬라이더)
     I = st.slider("전류의 세기 (I)", 0.1, 5.0, 2.0, help="자기장의 세기와 전류 선의 굵기에 영향을 줍니다.")
