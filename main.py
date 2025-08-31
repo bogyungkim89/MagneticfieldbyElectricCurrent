@@ -51,7 +51,7 @@ if simulation_type == "직선 전류":
     z = np.zeros_like(theta)
     
     B_r = 2e-7 * I / r_val
-    line_width = B_r / (2e-7 * 5.0 / 0.5) * 10 * 1.5
+    line_width = B_r / (2e-7 * 5.0 / 0.5) * 10 * 3  # 굵기 3배 증가
     
     fig.add_trace(go.Scatter3d(
         x=x, y=y, z=z,
@@ -69,7 +69,7 @@ if simulation_type == "직선 전류":
         y_start = r_val * np.sin(angle + 0.1)
         
         B_r = 2e-7 * I / r_val
-        arrow_size = B_r / (2e-7 * 5.0 / 0.5) * 0.8 * 1.5
+        arrow_size = B_r / (2e-7 * 5.0 / 0.5) * 0.8 * 2 # 화살표 크기 2배 증가
         
         fig.add_trace(go.Cone(
             x=[x_end], y=[y_end], z=[0],
@@ -222,11 +222,11 @@ elif simulation_type == "솔레노이드":
     mu_0 = 4 * np.pi * 1e-7
     B = mu_0 * n * I
     arrow_size = B / (mu_0 * 100 * 5.0) * 1.5
-    line_width = B / (mu_0 * 100 * 5.0) * 10 # 자기장 궤적 굵기
+    line_width = B / (mu_0 * 100 * 5.0) * 10
 
     x_positions = np.linspace(-0.5, 0.5, 3)
     y_positions = np.linspace(-0.5, 0.5, 3)
-    z_range = np.linspace(-2.5, 2.5, 50) # 자기장 궤적을 위한 z 범위
+    z_range = np.linspace(-2.5, 2.5, 50)
 
     for col_idx, x_pos in enumerate(x_positions):
         for row_idx, y_pos in enumerate(y_positions):
@@ -241,7 +241,7 @@ elif simulation_type == "솔레노이드":
             ))
             
             # 자기장 화살표 (각 궤적 위에 3개)
-            z_arrow_positions = np.linspace(-2.0, 2.0, 3) # 각 궤적 위에 3개의 화살표
+            z_arrow_positions = np.linspace(-2.0, 2.0, 3)
             for z_arrow_pos in z_arrow_positions:
                 fig.add_trace(go.Cone(
                     x=[x_pos], y=[y_pos], z=[z_arrow_pos],
