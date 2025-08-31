@@ -215,6 +215,22 @@ elif simulation_type == "솔레노이드":
         name='전류 (I)'
     ))
 
+    # 자기장 궤적 (빨간색)
+    theta = np.linspace(0, 2 * np.pi, 100)
+    x = r_val * np.cos(theta)
+    y = r_val * np.sin(theta)
+    z = np.zeros_like(theta)
+    
+    B_r = 2e-7 * I / r_val
+    line_width = B_r / (2e-7 * 5.0 / 0.5) * 10 * 3
+    
+    fig.add_trace(go.Scatter3d(
+        x=x, y=y, z=z,
+        mode='lines',
+        line=dict(color='red', width=line_width),
+        name='자기장 (B)'
+    ))
+
     # 코일 방향 화살표 (파란색)
     num_arrows = 10
     for i in range(num_arrows):
