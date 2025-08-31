@@ -208,8 +208,10 @@ elif simulation_type == "솔레노이드":
     
     # 코일을 y축에 나란하게 그리기 위해 x와 z를 코사인/사인으로 설정
     y_coil = np.linspace(-coil_length/2, coil_length/2, num_points)
-    x_coil = r_val * np.cos(theta)
-    z_coil = r_val * np.sin(theta)
+    
+    # y_coil 값에 따라 반지름이 커지도록 r_val에 계수를 곱함
+    x_coil = (r_val + y_coil * 0.2) * np.cos(theta)
+    z_coil = (r_val + y_coil * 0.2) * np.sin(theta)
     
     fig.add_trace(go.Scatter3d(
         x=x_coil, y=y_coil, z=z_coil,
@@ -224,10 +226,10 @@ elif simulation_type == "솔레노이드":
         y_pos = np.linspace(-2.5, 2.5, num_arrows)[i]
         angle = np.interp(y_pos, y_coil, theta)
         
-        x_end = r_val * np.cos(angle)
-        z_end = r_val * np.sin(angle)
-        x_start = r_val * np.cos(angle + 0.1)
-        z_start = r_val * np.sin(angle + 0.1)
+        x_end = (r_val + y_pos * 0.2) * np.cos(angle)
+        z_end = (r_val + y_pos * 0.2) * np.sin(angle)
+        x_start = (r_val + y_pos * 0.2) * np.cos(angle + 0.1)
+        z_start = (r_val + y_pos * 0.2) * np.sin(angle + 0.1)
         
         fig.add_trace(go.Cone(
             x=[x_end], y=[y_pos], z=[z_end],
@@ -261,7 +263,9 @@ elif simulation_type == "솔레노이드":
                 z=np.full_like(y_range, z_pos),
                 mode='lines',
                 line=dict(color='red', width=line_width),
-                showlegend=False
+                # 첫 번째 선분만 legend에 표시
+                showlegend=True if (col_idx == 0 and row_idx == 0) else False,
+                name='자기장 (B)'
             ))
             
             # 자기장 화살표 (각 궤적 위에 3개)
@@ -274,7 +278,7 @@ elif simulation_type == "솔레노이드":
                     sizemode="absolute", sizeref=arrow_size,
                     showscale=False,
                     colorscale=[[0, 'red'], [1, 'red']],
-                    name='자기장' if (col_idx == 0 and row_idx == 0 and y_arrow_pos == y_arrow_positions[0]) else ''
+                    name='자기장 화살표' if (col_idx == 0 and row_idx == 0 and y_arrow_pos == y_arrow_positions[0]) else ''
                 ))
 
     # 레이아웃 및 카메라 설정
