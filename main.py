@@ -94,7 +94,7 @@ if simulation_type == "직선 전류":
     )
     st.plotly_chart(fig, use_container_width=True)
 
----
+# --------------------------------------------------------------------------------------------------
 # 2. 원형 전류에 의한 자기장 (3D)
 elif simulation_type == "원형 전류":
     st.header("2. 원형 전류에 의한 자기장")
@@ -148,7 +148,6 @@ elif simulation_type == "원형 전류":
     ))
 
     # 자기장 화살표
-    # 직선 전류와 비슷한 크기로 조정합니다.
     arrow_size = B / (k_prime * 5.0 / 0.5) * 3.0 
     fig.add_trace(go.Cone(
         x=[0], y=[0], z=[4],
@@ -173,7 +172,7 @@ elif simulation_type == "원형 전류":
     )
     st.plotly_chart(fig, use_container_width=True)
 
----
+# --------------------------------------------------------------------------------------------------
 # 3. 솔레노이드에 의한 자기장 (3D)
 elif simulation_type == "솔레노이드":
     st.header("3. 솔레노이드에 의한 자기장")
