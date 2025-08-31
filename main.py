@@ -71,7 +71,7 @@ if simulation_type == "직선 전류":
         name='자기장 (B)'
     ))
 
-    # 자기장 방향 화살표 (빨간색, 반시계 방향)
+    # 자기장 방향 화살표 (빨간색, 시계 방향)
     arrow_angles = np.linspace(0, 2 * np.pi, 8, endpoint=False)
     for i, angle in enumerate(arrow_angles):
         x_end = r_val * np.cos(angle)
@@ -84,7 +84,7 @@ if simulation_type == "직선 전류":
         
         fig.add_trace(go.Cone(
             x=[x_end], y=[y_end], z=[0],
-            u=[x_end - x_start], v=[y_end - y_start], w=[0],
+            u=[x_start - x_end], v=[y_start - y_end], w=[0], # 화살표 방향 반대로 변경
             sizemode="absolute", sizeref=arrow_size,
             showscale=False,
             colorscale=[[0, 'red'], [1, 'red']],
@@ -130,7 +130,7 @@ elif simulation_type == "원형 전류":
         name='전류 (I)'
     ))
     
-    # 전류 방향 화살표 (파란색)
+    # 전류 방향 화살표 (파란색, 반시계 방향)
     arrow_angles = np.linspace(0, 2 * np.pi, 8, endpoint=False)
     for i, angle in enumerate(arrow_angles):
         x_end = r_val * np.cos(angle)
@@ -139,7 +139,7 @@ elif simulation_type == "원형 전류":
         y_start = r_val * np.sin(angle + 0.1)
         fig.add_trace(go.Cone(
             x=[x_end], y=[y_end], z=[0],
-            u=[x_end - x_start], v=[y_end - y_start], w=[0],
+            u=[x_start - x_end], v=[y_start - y_end], w=[0], # 화살표 방향 반대로 변경
             sizemode="absolute", sizeref=I * 0.3, 
             showscale=False,
             colorscale=[[0, 'blue'], [1, 'blue']],
