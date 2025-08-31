@@ -94,7 +94,7 @@ if simulation_type == "직선 전류":
     )
     st.plotly_chart(fig, use_container_width=True)
 
-# --------------------------------------------------------------------------------------------------
+---
 # 2. 원형 전류에 의한 자기장 (3D)
 elif simulation_type == "원형 전류":
     st.header("2. 원형 전류에 의한 자기장")
@@ -148,7 +148,8 @@ elif simulation_type == "원형 전류":
     ))
 
     # 자기장 화살표
-    arrow_size = B / (k_prime * 5.0 / 0.5) * 1.5
+    # 직선 전류와 비슷한 크기로 조정합니다.
+    arrow_size = B / (k_prime * 5.0 / 0.5) * 3.0 
     fig.add_trace(go.Cone(
         x=[0], y=[0], z=[4],
         u=[0], v=[0], w=[1],
@@ -172,7 +173,7 @@ elif simulation_type == "원형 전류":
     )
     st.plotly_chart(fig, use_container_width=True)
 
-# --------------------------------------------------------------------------------------------------
+---
 # 3. 솔레노이드에 의한 자기장 (3D)
 elif simulation_type == "솔레노이드":
     st.header("3. 솔레노이드에 의한 자기장")
@@ -190,7 +191,6 @@ elif simulation_type == "솔레노이드":
     coil_length = 6 # 코일 길이 고정
     
     # n 값에 따라 theta의 범위를 변경하여 빽빽한 정도 조절
-    # n이 클수록 theta의 범위가 넓어져 더 많이 감기게 됩니다.
     theta = np.linspace(0, n / 5 * 2 * np.pi, num_points) 
     
     # 코일을 y축에 나란하게 그리기 위해 x와 z를 코사인/사인으로 설정
@@ -232,8 +232,10 @@ elif simulation_type == "솔레노이드":
     arrow_size = B / (mu_0 * 100 * 5.0) * 1.5
     line_width = B / (mu_0 * 100 * 5.0) * 10
 
-    x_positions = np.linspace(-0.5, 0.5, 3)
-    z_positions = np.linspace(-0.5, 0.5, 3)
+    # 솔레노이드의 반지름은 1.0 (cos(theta), sin(theta)이므로)
+    # 자기장의 범위를 솔레노이드 반지름보다 넓게 설정합니다.
+    x_positions = np.linspace(-1.5, 1.5, 5) 
+    z_positions = np.linspace(-1.5, 1.5, 5) 
     y_range = np.linspace(-2.5, 2.5, 50)
 
     for col_idx, x_pos in enumerate(x_positions):
@@ -264,6 +266,7 @@ elif simulation_type == "솔레노이드":
     fig.update_layout(
         scene=dict(
             xaxis_title='X축', yaxis_title='Y축', zaxis_title='Z축',
+            # 축 범위도 자기장 범위에 맞게 조정
             xaxis=dict(showticklabels=False, range=[-2, 2]), 
             yaxis=dict(showticklabels=False, range=[-4, 4]), 
             zaxis=dict(showticklabels=False, range=[-2, 2]),
