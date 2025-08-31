@@ -13,19 +13,6 @@ simulation_type = st.sidebar.radio(
     ("직선 전류", "원형 전류", "솔레노이드")
 )
 
-# CSS를 사용하여 슬라이더 색상 변경
-st.markdown("""
-<style>
-.stSlider .st-cd {
-    background-color: #007bff;
-}
-.stSlider .st-cp {
-    background-color: #007bff;
-}
-</style>
-""", unsafe_allow_html=True)
-
-
 # 그래프 설정 (다운로드, 초기화, 전체화면 버튼만 남김)
 config = {
     'displaylogo': False,
