@@ -232,7 +232,7 @@ elif simulation_type == "솔레노이드":
         fig.add_trace(go.Cone(
             x=[x_end], y=[y_pos], z=[z_end],
             u=[x_end - x_start], v=[0], w=[z_end - z_start],
-            sizemode="absolute", sizeref=0.3,
+            sizemode="absolute", sizeref=0.5, # 이 부분을 0.5로 변경
             showscale=False,
             colorscale=[[0, 'blue'], [1, 'blue']],
             name='코일 전류 방향' if i == 0 else ''
