@@ -27,7 +27,8 @@ config = {
 # --------------------------------------------------------------------------------------------------
 # 1. 직선 전류에 의한 자기장 (3D)
 if simulation_type == "직선 전류":
-    st.header("1. 직선 전류에 의한 자기장")
+    # 제목 변경
+    st.header("1. 직선 전류에 의한 자기장 ($B=k(I/r)$)")
     st.markdown("수직 도선에 흐르는 전류와 주변에 형성되는 자기장을 3차원으로 보여줍니다.")
 
     # 사용자 입력 (슬라이더)
@@ -84,7 +85,7 @@ if simulation_type == "직선 전류":
         
         fig.add_trace(go.Cone(
             x=[x_end], y=[y_end], z=[0],
-            u=[x_start - x_end], v=[y_start - y_end], w=[0], # 화살표 방향 반대로 변경
+            u=[x_start - x_end], v=[y_start - y_end], w=[0],
             sizemode="absolute", sizeref=arrow_size,
             showscale=False,
             colorscale=[[0, 'red'], [1, 'red']],
@@ -108,7 +109,8 @@ if simulation_type == "직선 전류":
 # --------------------------------------------------------------------------------------------------
 # 2. 원형 전류에 의한 자기장 (3D)
 elif simulation_type == "원형 전류":
-    st.header("2. 원형 전류에 의한 자기장")
+    # 제목 변경
+    st.header("2. 원형 전류에 의한 자기장 ($B=k'(I/r)$, $k'=\pi k$)")
     st.markdown("원형 도선에 흐르는 전류와 중심을 뚫고 나오는 자기장을 3차원으로 보여줍니다.")
 
     # 사용자 입력 (슬라이더)
@@ -139,7 +141,7 @@ elif simulation_type == "원형 전류":
         y_start = r_val * np.sin(angle + 0.1)
         fig.add_trace(go.Cone(
             x=[x_end], y=[y_end], z=[0],
-            u=[x_start - x_end], v=[y_start - y_end], w=[0], # 화살표 방향 반대로 변경
+            u=[x_start - x_end], v=[y_start - y_end], w=[0],
             sizemode="absolute", sizeref=I * 0.3, 
             showscale=False,
             colorscale=[[0, 'blue'], [1, 'blue']],
@@ -186,7 +188,8 @@ elif simulation_type == "원형 전류":
 # --------------------------------------------------------------------------------------------------
 # 3. 솔레노이드에 의한 자기장 (3D)
 elif simulation_type == "솔레노이드":
-    st.header("3. 솔레노이드에 의한 자기장")
+    # 제목 변경
+    st.header("3. 솔레노이드에 의한 자기장 ($B=k''(I/r)$, $k''=2k'=2\pi k$)")
     st.markdown("원통형 코일에 흐르는 전류와 내부의 균일한 자기장을 3차원으로 보여줍니다.")
 
     # 사용자 입력 (슬라이더)
