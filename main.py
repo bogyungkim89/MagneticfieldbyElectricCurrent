@@ -51,7 +51,7 @@ if simulation_type == "직선 전류":
     z = np.zeros_like(theta)
     
     B_r = 2e-7 * I / r_val
-    line_width = B_r / (2e-7 * 5.0 / 0.5) * 10
+    line_width = B_r / (2e-7 * 5.0 / 0.5) * 10 * 1.5
     
     fig.add_trace(go.Scatter3d(
         x=x, y=y, z=z,
@@ -69,7 +69,7 @@ if simulation_type == "직선 전류":
         y_start = r_val * np.sin(angle + 0.1)
         
         B_r = 2e-7 * I / r_val
-        arrow_size = B_r / (2e-7 * 5.0 / 0.5) * 0.8
+        arrow_size = B_r / (2e-7 * 5.0 / 0.5) * 0.8 * 1.5
         
         fig.add_trace(go.Cone(
             x=[x_end], y=[y_end], z=[0],
@@ -80,16 +80,13 @@ if simulation_type == "직선 전류":
             name='자기장 방향' if i == 0 else ''
         ))
 
-    # 자기장의 세기 계산 및 표시
-    k = 2e-7
-    B = k * I / r_val
-    st.markdown(f"**자기장의 세기 (B)**: ${B:.2e}$ T")
-
     # 레이아웃 및 카메라 설정
     fig.update_layout(
         scene=dict(
             xaxis_title='X축', yaxis_title='Y축', zaxis_title='Z축',
-            xaxis=dict(range=[-4, 4]), yaxis=dict(range=[-4, 4]), zaxis=dict(range=[-4, 4]),
+            xaxis=dict(showticklabels=False, range=[-4, 4]), 
+            yaxis=dict(showticklabels=False, range=[-4, 4]), 
+            zaxis=dict(showticklabels=False, range=[-4, 4]),
             aspectmode='cube'
         ),
         margin=dict(l=0, r=0, b=0, t=0),
@@ -161,14 +158,13 @@ elif simulation_type == "원형 전류":
         name='자기장 방향'
     ))
 
-    # 자기장의 세기 계산 및 표시
-    st.markdown(f"**자기장의 세기 (B)**: ${B:.2e}$ T")
-
     # 레이아웃 및 카메라 설정
     fig.update_layout(
         scene=dict(
             xaxis_title='X축', yaxis_title='Y축', zaxis_title='Z축',
-            xaxis=dict(range=[-4, 4]), yaxis=dict(range=[-4, 4]), zaxis=dict(range=[-4, 4]),
+            xaxis=dict(showticklabels=False, range=[-4, 4]), 
+            yaxis=dict(showticklabels=False, range=[-4, 4]), 
+            zaxis=dict(showticklabels=False, range=[-4, 4]),
             aspectmode='cube'
         ),
         margin=dict(l=0, r=0, b=0, t=0),
@@ -205,11 +201,9 @@ elif simulation_type == "솔레노이드":
     # 코일 방향 화살표 (파란색)
     num_arrows = 10
     for i in range(num_arrows):
-        # 코일의 z축 위치에 맞춰 화살표 위치 계산
         z_pos = np.linspace(-2.5, 2.5, num_arrows)[i]
         angle = np.interp(z_pos, z_coil, theta)
         
-        # 화살표의 시작과 끝점
         x_end = np.cos(angle)
         y_end = np.sin(angle)
         x_start = np.cos(angle - 0.1)
@@ -223,41 +217,35 @@ elif simulation_type == "솔레노이드":
             colorscale=[[0, 'blue'], [1, 'blue']],
             name='코일 전류 방향' if i == 0 else ''
         ))
-
-    # 솔레노이드 내부 자기장 (빨간색) - 중앙 궤적 하나만
+    
+    # 솔레노이드 내부 자기장 화살표 (빨간색)
     mu_0 = 4 * np.pi * 1e-7
     B = mu_0 * n * I
-    line_width = B / (mu_0 * 100 * 5.0) * 10
-    
-    z_field = np.linspace(-2.5, 2.5, 50)
-    x_field = np.full_like(z_field, 0)
-    y_field = np.full_like(z_field, 0)
-    fig.add_trace(go.Scatter3d(
-        x=x_field, y=y_field, z=z_field,
-        mode='lines',
-        line=dict(color='red', width=line_width),
-        name='자기장 궤적'
-    ))
-
-    # 자기장 화살표 (빨간색)
     arrow_size = B / (mu_0 * 100 * 5.0) * 1.5
-    fig.add_trace(go.Cone(
-        x=[0], y=[0], z=[2.5],
-        u=[0], v=[0], w=[1],
-        sizemode="absolute", sizeref=arrow_size,
-        showscale=False,
-        colorscale=[[0, 'red'], [1, 'red']],
-        name='자기장 방향'
-    ))
 
-    # 자기장의 세기 계산 및 표시
-    st.markdown(f"**자기장의 세기 (B)**: ${B:.2e}$ T")
+    x_positions = np.linspace(-0.5, 0.5, 3)
+    y_positions = np.linspace(-0.5, 0.5, 3)
+    z_positions = np.linspace(-2.5, 2.5, 3)
+
+    for x_pos in x_positions:
+        for y_pos in y_positions:
+            for z_pos in z_positions:
+                fig.add_trace(go.Cone(
+                    x=[x_pos], y=[y_pos], z=[z_pos],
+                    u=[0], v=[0], w=[1],
+                    sizemode="absolute", sizeref=arrow_size,
+                    showscale=False,
+                    colorscale=[[0, 'red'], [1, 'red']],
+                    name='자기장 화살표' if (x_pos == x_positions[0] and y_pos == y_positions[0] and z_pos == z_positions[0]) else ''
+                ))
 
     # 레이아웃 및 카메라 설정
     fig.update_layout(
         scene=dict(
             xaxis_title='X축', yaxis_title='Y축', zaxis_title='Z축',
-            xaxis=dict(range=[-2, 2]), yaxis=dict(range=[-2, 2]), zaxis=dict(range=[-4, 4]),
+            xaxis=dict(showticklabels=False, range=[-2, 2]), 
+            yaxis=dict(showticklabels=False, range=[-2, 2]), 
+            zaxis=dict(showticklabels=False, range=[-4, 4]),
             aspectmode='cube'
         ),
         margin=dict(l=0, r=0, b=0, t=0),
