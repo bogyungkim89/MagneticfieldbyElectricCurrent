@@ -31,8 +31,7 @@ if simulation_type == "직선 전류":
         x=[0, 0], y=[0, 0], z=[-5, 5],
         mode='lines',
         line=dict(color='blue', width=10),
-        name='전류 (I)',
-        hoverinfo='name'
+        name='전류 (I)'
     ))
 
     # 자기장 궤적 (빨간색)
@@ -45,29 +44,29 @@ if simulation_type == "직선 전류":
             x=x, y=y, z=z,
             mode='lines',
             line=dict(color='red', width=3),
-            name=f'자기장 궤적 (r={r})' if r == r_val else '',
-            showlegend=(r == r_val)
+            name='자기장 궤적' if r == r_val else ''
         ))
 
     # 자기장 방향 화살표 (빨간색, 반시계 방향)
     arrow_angles = np.linspace(0, 2 * np.pi, 8, endpoint=False)
-    for angle in arrow_angles:
+    for i, angle in enumerate(arrow_angles):
         x_end = r_val * np.cos(angle)
         y_end = r_val * np.sin(angle)
+        # 화살표의 시작점은 끝점에서 역방향으로 약간 이동
         x_start = r_val * np.cos(angle + 0.1)
         y_start = r_val * np.sin(angle + 0.1)
+        
         fig.add_trace(go.Cone(
             x=[x_end], y=[y_end], z=[0],
             u=[x_end - x_start], v=[y_end - y_start], w=[0],
             sizemode="absolute", sizeref=0.3,
             showscale=False,
             colorscale=[[0, 'red'], [1, 'red']],
-            name='자기장 방향' if angle == arrow_angles[0] else '',
-            showlegend=(angle == arrow_angles[0])
+            name='자기장 방향' if i == 0 else ''
         ))
 
     # 자기장의 세기 계산 및 표시
-    k = 2e-7  # 비례상수 (SI 단위)
+    k = 2e-7
     B = k * I / r_val
     st.markdown(f"**자기장의 세기 (B)**: ${B:.2e}$ T")
 
@@ -193,7 +192,7 @@ elif simulation_type == "솔레노이드":
     ))
 
     # 자기장의 세기 계산 및 표시
-    mu_0 = 4 * np.pi * 1e-7  # 투자율 (permeability of free space)
+    mu_0 = 4 * np.pi * 1e-7
     B = mu_0 * n * I
     st.markdown(f"**자기장의 세기 (B)**: ${B:.2e}$ T")
 
