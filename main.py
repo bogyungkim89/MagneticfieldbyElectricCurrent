@@ -28,8 +28,8 @@ config = {
 # 1. 직선 전류에 의한 자기장 (3D)
 if simulation_type == "직선 전류":
     # 제목 변경
-    st.header("1. 직선 전류에 의한 자기장")
-    st.markdown("<span style='font-size: 150%;'> $$B=k\\frac{I}{r}$$", unsafe_allow_html=True)
+    st.header("1. 직선 전류에 의한 자기장
+    st.markdown("<span style='font-size: 150%;'><span style='color:red'>B</span><span style='color:blue'>I</span><span style='color:green'>k</span> $$B=k\\frac{I}{r}$$", unsafe_allow_html=True)
     st.markdown("수직 도선에 흐르는 전류와 주변에 형성되는 자기장을 3차원으로 보여줍니다.")
 
     # 사용자 입력 (슬라이더)
