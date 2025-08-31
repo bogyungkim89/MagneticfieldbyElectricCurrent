@@ -222,21 +222,34 @@ elif simulation_type == "솔레노이드":
     mu_0 = 4 * np.pi * 1e-7
     B = mu_0 * n * I
     arrow_size = B / (mu_0 * 100 * 5.0) * 1.5
+    line_width = B / (mu_0 * 100 * 5.0) * 10 # 자기장 궤적 굵기
 
     x_positions = np.linspace(-0.5, 0.5, 3)
     y_positions = np.linspace(-0.5, 0.5, 3)
-    z_positions = np.linspace(-2.5, 2.5, 3)
+    z_range = np.linspace(-2.5, 2.5, 50) # 자기장 궤적을 위한 z 범위
 
-    for x_pos in x_positions:
-        for y_pos in y_positions:
-            for z_pos in z_positions:
+    for col_idx, x_pos in enumerate(x_positions):
+        for row_idx, y_pos in enumerate(y_positions):
+            # 자기장 궤적 (직선)
+            fig.add_trace(go.Scatter3d(
+                x=np.full_like(z_range, x_pos),
+                y=np.full_like(z_range, y_pos),
+                z=z_range,
+                mode='lines',
+                line=dict(color='red', width=line_width),
+                showlegend=False
+            ))
+            
+            # 자기장 화살표 (각 궤적 위에 3개)
+            z_arrow_positions = np.linspace(-2.0, 2.0, 3) # 각 궤적 위에 3개의 화살표
+            for z_arrow_pos in z_arrow_positions:
                 fig.add_trace(go.Cone(
-                    x=[x_pos], y=[y_pos], z=[z_pos],
+                    x=[x_pos], y=[y_pos], z=[z_arrow_pos],
                     u=[0], v=[0], w=[1],
                     sizemode="absolute", sizeref=arrow_size,
                     showscale=False,
                     colorscale=[[0, 'red'], [1, 'red']],
-                    name='자기장 화살표' if (x_pos == x_positions[0] and y_pos == y_positions[0] and z_pos == z_positions[0]) else ''
+                    name='자기장 화살표' if (col_idx == 0 and row_idx == 0 and z_arrow_pos == z_arrow_positions[0]) else ''
                 ))
 
     # 레이아웃 및 카메라 설정
