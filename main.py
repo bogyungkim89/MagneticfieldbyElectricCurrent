@@ -69,8 +69,7 @@ if simulation_type == "직선 전류":
         y_start = r_val * np.sin(angle + 0.1)
         
         B_r = 2e-7 * I / r_val
-        # sizeref 값을 더 크게 조정하여 화살표를 더 명확하게 만듭니다.
-        arrow_size = B_r / (2e-7 * 5.0 / 0.5) * 3.0 # 1.5 -> 3.0으로 조정 (2배)
+        arrow_size = B_r / (2e-7 * 5.0 / 0.5) * 3.0
         
         fig.add_trace(go.Cone(
             x=[x_end], y=[y_end], z=[0],
@@ -237,4 +236,32 @@ elif simulation_type == "솔레노이드":
                 y=np.full_like(z_range, y_pos),
                 z=z_range,
                 mode='lines',
-                line=dict(color='red', width=line_width
+                line=dict(color='red', width=line_width),
+                showlegend=False
+            ))
+            
+            # 자기장 화살표 (각 궤적 위에 3개)
+            z_arrow_positions = np.linspace(-2.0, 2.0, 3)
+            for z_arrow_pos in z_arrow_positions:
+                fig.add_trace(go.Cone(
+                    x=[x_pos], y=[y_pos], z=[z_arrow_pos],
+                    u=[0], v=[0], w=[1],
+                    sizemode="absolute", sizeref=arrow_size,
+                    showscale=False,
+                    colorscale=[[0, 'red'], [1, 'red']],
+                    name='자기장 화살표' if (col_idx == 0 and row_idx == 0 and z_arrow_pos == z_arrow_positions[0]) else ''
+                ))
+
+    # 레이아웃 및 카메라 설정
+    fig.update_layout(
+        scene=dict(
+            xaxis_title='X축', yaxis_title='Y축', zaxis_title='Z축',
+            xaxis=dict(showticklabels=False, range=[-2, 2]), 
+            yaxis=dict(showticklabels=False, range=[-2, 2]), 
+            zaxis=dict(showticklabels=False, range=[-4, 4]),
+            aspectmode='cube'
+        ),
+        margin=dict(l=0, r=0, b=0, t=0),
+        legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01)
+    )
+    st.plotly_chart(fig, use_container_width=True)
