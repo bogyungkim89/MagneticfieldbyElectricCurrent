@@ -213,6 +213,7 @@ elif simulation_type == "솔레노이드":
         mode='lines',
         line=dict(color='blue', width=I * 2),
         name='전류 (I)'
+        ))  
 
         fig.add_trace(go.Scatter3d(
         x=x, y=y, z=z,
