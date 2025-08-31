@@ -105,8 +105,7 @@ if simulation_type == "직선 전류":
     )
     st.plotly_chart(fig, use_container_width=True, config=config)
 
----
-
+# --------------------------------------------------------------------------------------------------
 # 2. 원형 전류에 의한 자기장 (3D)
 elif simulation_type == "원형 전류":
     st.header("2. 원형 전류에 의한 자기장")
@@ -184,8 +183,7 @@ elif simulation_type == "원형 전류":
     )
     st.plotly_chart(fig, use_container_width=True, config=config)
 
----
-
+# --------------------------------------------------------------------------------------------------
 # 3. 솔레노이드에 의한 자기장 (3D)
 elif simulation_type == "솔레노이드":
     st.header("3. 솔레노이드에 의한 자기장")
