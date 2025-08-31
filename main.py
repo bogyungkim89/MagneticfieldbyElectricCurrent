@@ -129,7 +129,7 @@ elif simulation_type == "원형 전류":
         fig.add_trace(go.Cone(
             x=[x_end], y=[y_end], z=[0],
             u=[x_end - x_start], v=[y_end - y_start], w=[0],
-            sizemode="absolute", sizeref=I * 0.1,
+            sizemode="absolute", sizeref=I * 0.3, # 화살표 크기를 키웠습니다.
             showscale=False,
             colorscale=[[0, 'blue'], [1, 'blue']],
             name='전류 방향' if i == 0 else ''
