@@ -112,6 +112,9 @@ if simulation_type == "직선 전류":
 elif simulation_type == "원형 전류":
     # 제목 변경
     st.header("2. 원형 전류에 의한 자기장")
+    st.markdown("<span style='font-size: 150%;'>$$B=k'\\frac{I}{r}$$</span>", unsafe_allow_html=True)
+    st.markdown("<span style='font-size: 120%;'>$$(k'=\pi k)$$</span>", unsafe_allow_html=True)
+
     st.markdown("<span style='font-size: 150%;'><span style='color:red;'>$$B$$</span>=<span style='color:green;'>$$k'$$</span>\\frac{<span style='color:blue;'>$$I$$</span>}{<span style='color:green;'>$$r$$</span>}, <span style='color:green;'>$$k'$$</span>=\\pi <span style='color:green;'>$$k$$</span>$$</span>", unsafe_allow_html=True)
     st.markdown("원형 도선에 흐르는 전류와 중심을 뚫고 나오는 자기장을 3차원으로 보여줍니다.")
 
