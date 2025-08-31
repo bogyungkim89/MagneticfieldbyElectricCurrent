@@ -113,7 +113,7 @@ elif simulation_type == "원형 전류":
     # 제목 변경
     st.header("2. 원형 전류에 의한 자기장")
     st.markdown("원형 도선에 흐르는 전류와 중심을 뚫고 나오는 자기장을 3차원으로 보여줍니다.")
-    st.markdown("<span style='font-size: 140%;'>$B=k'(I/r)$ ($k'=\pi k$)</span>", unsafe_allow_html=True)
+    st.markdown("<span style='font-size: 140%;'>$B=k' \\frac{I}{r}$ ($k'=\pi k$)</span>", unsafe_allow_html=True)
 
     # 사용자 입력 (슬라이더)
     I = st.slider("전류의 세기 (I)", 0.1, 5.0, 2.0, help="자기장의 세기와 전류 선의 굵기에 영향을 줍니다.")
