@@ -51,7 +51,7 @@ if simulation_type == "직선 전류":
     z = np.zeros_like(theta)
     
     B_r = 2e-7 * I / r_val
-    line_width = B_r / (2e-7 * 5.0 / 0.5) * 10 * 3  # 굵기 3배 증가
+    line_width = B_r / (2e-7 * 5.0 / 0.5) * 10 * 3
     
     fig.add_trace(go.Scatter3d(
         x=x, y=y, z=z,
@@ -69,7 +69,8 @@ if simulation_type == "직선 전류":
         y_start = r_val * np.sin(angle + 0.1)
         
         B_r = 2e-7 * I / r_val
-        arrow_size = B_r / (2e-7 * 5.0 / 0.5) * 0.8 * 2 # 화살표 크기 2배 증가
+        # 화살표 크기 (sizeref)를 더 크게 조정하여 화살촉이 더 뾰족하게 보이도록 합니다.
+        arrow_size = B_r / (2e-7 * 5.0 / 0.5) * 1.5 # 이전 0.8 * 2 에서 1.5 로 조정
         
         fig.add_trace(go.Cone(
             x=[x_end], y=[y_end], z=[0],
